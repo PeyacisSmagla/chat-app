@@ -9,10 +9,28 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
+import toast from "react-hot-toast";
+
+const validateForm = (formData) => {
+  const { fullName, email, password } = formData;
+  if (!fullName.trim()) return toast.error("Full name is required");
+
+  if (!email.trim()) return toast.error("Email is required");
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email))
+    return toast.error("Enter a valid email address");
+
+  if (!password) return toast.error("Password is required");
+
+  if (password.length < 6)
+    return toast.error("Password must be at least 6 characters");
+
+  return true;
+};
 
 export default function Signup() {
   const { isSignUp, signUp } = useAuthStore();
-
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -21,7 +39,8 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle sign-up logic here
+    const success = validateForm(formData);
+    if (success === true) signUp(formData);
   };
 
   return (
@@ -57,53 +76,68 @@ export default function Signup() {
             Create Account
           </Typography>
 
-          <form onSubmit={handleSubmit}>
-            <Box component="form" noValidate autoComplete="off">
-              <TextField
-                fullWidth
-                size="small"
-                label="Full Name"
-                margin="dense"
-                variant="outlined"
-                sx={{ mb: 2 }}
-                required
-              />
-              <TextField
-                fullWidth
-                size="small"
-                label="Email"
-                margin="dense"
-                type="email"
-                variant="outlined"
-                sx={{ mb: 2 }}
-                required
-              />
-              <TextField
-                fullWidth
-                size="small"
-                label="Password"
-                margin="dense"
-                type="password"
-                variant="outlined"
-                sx={{ mb: 2 }}
-                required
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                sx={{
-                  mt: 2,
-                  py: 1,
-                  backgroundColor: "primary.main",
-                  textTransform: "none",
-                  fontWeight: "bold",
-                }}
-              >
-                {isSignUp ? "Loading..." : "Sign Up"}
-              </Button>
-            </Box>
-          </form>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit}
+          >
+            <TextField
+              fullWidth
+              size="small"
+              label="Full Name"
+              margin="dense"
+              variant="outlined"
+              sx={{ mb: 2 }}
+              required
+              value={formData.fullName}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, fullName: e.target.value }))
+              }
+            />
+            <TextField
+              fullWidth
+              size="small"
+              label="Email"
+              margin="dense"
+              type="email"
+              variant="outlined"
+              sx={{ mb: 2 }}
+              required
+              value={formData.email}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, email: e.target.value }))
+              }
+            />
+            <TextField
+              fullWidth
+              size="small"
+              label="Password"
+              margin="dense"
+              type="password"
+              variant="outlined"
+              sx={{ mb: 2 }}
+              required
+              value={formData.password}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, password: e.target.value }))
+              }
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                mt: 2,
+                py: 1,
+                backgroundColor: "primary.main",
+                textTransform: "none",
+                fontWeight: "bold",
+              }}
+            >
+              {isSignUp ? "Loading..." : "Sign Up"}
+            </Button>
+          </Box>
 
           <Box sx={{ mt: 2, textAlign: "center" }}>
             <Typography variant="body2">
