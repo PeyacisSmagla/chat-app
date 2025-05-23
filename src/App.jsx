@@ -1,13 +1,15 @@
+import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Navigate, Route, Routes } from "react-router-dom";
+
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
-import { useAuthStore } from "./store/useAuthStore";
-import { useEffect } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
 import Signup from "./pages/signup";
-import { Toaster } from "react-hot-toast";
+import Navbar from "./components/Navbar";
+import { useAuthStore } from "./store/useAuthStore";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -32,6 +34,7 @@ function App() {
 
   return (
     <div>
+      <Navbar />
       <Routes>
         <Route
           path="/"

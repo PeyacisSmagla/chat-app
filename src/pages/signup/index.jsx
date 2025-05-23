@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Container,
   Box,
@@ -6,6 +6,8 @@ import {
   Button,
   Typography,
   Paper,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
@@ -30,6 +32,8 @@ const validateForm = (formData) => {
 };
 
 export default function Signup() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { isSignUp, signUp } = useAuthStore();
   const [formData, setFormData] = useState({
     fullName: "",
@@ -63,6 +67,7 @@ export default function Signup() {
       >
         <Box
           sx={{
+            display: isMobile ? "none" : "block",
             width: "50%",
             backgroundImage:
               'url("https://source.unsplash.com/600x800/?signup,technology")',
@@ -71,7 +76,7 @@ export default function Signup() {
           }}
         />
 
-        <Box sx={{ width: "50%", padding: 4 }}>
+        <Box sx={{ width: isMobile ? "100%" : "50%", padding: 4 }}>
           <Typography variant="h5" gutterBottom align="center">
             Create Account
           </Typography>
