@@ -1,5 +1,4 @@
-// src/theme/ThemeContext.jsx
-import React, { createContext, useMemo, useState, useContext } from "react";
+import { createContext, useMemo, useState, useContext } from "react";
 import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
@@ -29,13 +28,18 @@ export const ThemeProvider = ({ children }) => {
             main: "#f50057",
           },
           background: {
-            default: mode === "light" ? "#ffffff" : "#121212",
-            paper: mode === "light" ? "#f5f5f5" : "#1e1e1e",
+            default: mode === "light" ? "#f0f2f5" : "#121212",
+            paper: mode === "light" ? "#ffffff" : "#1e1e1e",
+            sidebar: mode === "light" ? "#f9f9f9" : "#1a1a1a",
           },
           text: {
-            primary: mode === "light" ? "#000000" : "#ffffff",
+            primary: mode === "light" ? "#1a1a1a" : "#f5f5f5",
             secondary: mode === "light" ? "#6c757d" : "#b0bec5",
           },
+          divider: mode === "light" ? "#e0e0e0" : "#333",
+        },
+        shape: {
+          borderRadius: 8,
         },
       }),
     [mode]
