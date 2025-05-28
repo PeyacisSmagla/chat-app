@@ -57,7 +57,7 @@ const Sidebar = () => {
             return (
               <Box
                 key={user?._id}
-                onClick={() => setSelectedUser(user?._id)}
+                onClick={() => setSelectedUser(user)}
                 sx={{
                   display: "flex",
                   alignItems: "center",
